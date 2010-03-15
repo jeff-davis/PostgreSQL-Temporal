@@ -5,6 +5,9 @@
 -- Portions Copyright (c) 2007-2008, Jeff Davis <jeff@j-davis.com>
 --
 
+-- Adjust this setting to control where the objects get created.
+SET search_path = public;
+
 CREATE TYPE period;
 
 CREATE OR REPLACE FUNCTION period_in(cstring) RETURNS period LANGUAGE C IMMUTABLE STRICT 
