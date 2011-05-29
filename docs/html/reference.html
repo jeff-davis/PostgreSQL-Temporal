@@ -1,0 +1,226 @@
+<html>
+<head>
+<title>Temporal Postgres - Reference</title>
+</head>
+<body>
+<h1><tt>PERIOD</tt> Data Type Reference</h1>
+
+<h2>In/Out Functions</h2>
+
+<h3><tt>period period_in(text t)</tt></h3>
+<p>
+Converts a text string representation <tt>t</tt> into a period type. The text representation should be of one of the following forms:<br>
+( <i>timestamptz</i>, <i>timestamptz</i> )<br>
+[ <i>timestamptz</i>, <i>timestamptz</i> )<br>
+( <i>timestamptz</i>, <i>timestamptz</i> ]<br>
+[ <i>timestamptz</i>, <i>timestamptz</i> ]
+</p>
+<p>
+Where <i>timestamptz</i> is a valid representation of a <tt>timestamptz</tt>. The choice of brackets represents the inclusiveness of the interval. A square bracket makes that side inclusive, and a peren makes that side exclusive.
+</p>
+
+<h3><tt>text period_out(period p)</tt></h3>
+<p>
+Outputs period <tt>p</tt> in the form:<br>
+[ <i>ts1</i>, <i>ts2</i> )<br>
+Where ts1 is the text representation of the timestamptz value <tt>first(p)</tt> and ts2 is the text representation of the timestamptz value <tt>next(p)</tt>.
+</p>
+
+<h2><tt>INTERVAL</tt> Functions</h2>
+
+<h3><tt>interval length(period p)</tt></h3>
+<p>
+Returns the interval value <tt>next(p) - first(p)</tt>.
+</p>
+
+<h2><tt>TIMESTAMPTZ</tt> Functions</h2>
+
+<h3><tt>timestamptz first(period p)</tt></h3>
+<p>
+Returns the lowest timestamptz value that is a member of the period <tt>p</tt>.
+</p>
+
+<h3><tt>timestamptz last(period p)</tt></h3>
+<p>
+Returns the highest timestamptz value that is a member of the period <tt>p</tt>.
+</p>
+
+<h3><tt>timestamptz prior(period p)</tt></h3>
+<p>
+Returns the timestamptz value just prior to <tt>first(p)</tt>.
+</p>
+
+<h3><tt>timestamptz next(period p)</tt></h3>
+<p>
+Returns the next timestamptz value just after <tt>last(p)</tt>.
+</p>
+
+<h2><tt>BOOLEAN</tt> Functions</h2>
+
+<h3><tt>boolean contains(period p, timestamptz ts)</tt></h3>
+<p>
+Returns <tt>true</tt> if the timestamptz value <tt>ts</tt> is included in the period <tt>p</tt>, <tt>false</tt> otherwise.
+</p>
+
+<h3><tt>boolean contains(period p1, period p2)</tt></h3>
+<p>
+Returns <tt>true</tt> if all of the timestamptz values that are a member of the period <tt>p2</tt> are also a member of the period <tt>p1</tt>, <tt>false</tt> otherwise.
+</p>
+
+<h3><tt>boolean contained_by(timestamptz ts, period p)</tt></h3>
+<p>
+Returns <tt>true</tt> if the timestamptz value <tt>ts</tt> is included in the period <tt>p</tt>, <tt>false</tt> otherwise.
+</p>
+
+<h3><tt>boolean contained_by(period p1, period p2)</tt></h3>
+<p>
+Returns <tt>true</tt> if all of the timestamptz values that are a member of the period <tt>p1</tt> are also a member of the period <tt>p2</tt>, <tt>false</tt> otherwise.
+</p>
+
+<h3><tt>boolean adjacent(period p1, period p2)</tt></h3>
+<p>
+Returns <tt>true</tt> if <tt>next(p1) == first(p2) OR next(p2) == first(p1)</tt>, <tt>false</tt> otherwise. In other words, the periods are "touching", but not overlapping.
+</p>
+
+<h3><tt>boolean overlaps(period p1, period p2)</tt></h3>
+<p>
+Returns true if there is at least one timestamptz value that is a member of both periods <tt>p1</tt> and <tt>p2</tt>.
+</p>
+
+<h3><tt>boolean overleft(period p1, period p2)</tt></h3>
+<p>
+Returns <tt>true</tt> if all timestamptz values in period <tt>p1</tt> are less than or equal to <tt>next(p2)</tt>, <tt>false</tt> otherwise.
+</p>
+
+<h3><tt>boolean overright(period p1, period p2)</tt></h3>
+<p>
+Returns <tt>true</tt> if all timestamptz values in period <tt>p1</tt> are greater than or equal to <tt>first(p2)</tt>, <tt>false</tt> otherwise.
+</p>
+
+<h3><tt>boolean is_empty(period p)</tt></h3>
+<p>
+Returns <tt>true</tt> if there are no timestamptz values contained in the period <tt>p</tt>, false otherwise.
+</p>
+
+<h3><tt>boolean equals(period p1, period p2)</tt></h3>
+<p>
+Returns <tt>true</tt> if period <tt>p1</tt> is exactly the same as the period <tt>p2</tt>, <tt>false</tt> otherwise.
+</p>
+
+<h3><tt>boolean nequals(period p1, period p2)</tt></h3>
+<p>
+Returns <tt>false</tt> if period <tt>p1</tt> is exactly the same as the period <tt>p2</tt>, <tt>true</tt> otherwise.
+</p>
+
+<h3><tt>boolean before(period p1, period p2)</tt></h3>
+<p>
+Returns <tt>true</tt> if all timestamptz values in the period <tt>p1</tt> are less than all timestamptz values in the period <tt>p2</tt>, <tt>false</tt> otherwise.
+</p>
+
+<h3><tt>boolean after(period p1, period p2)</tt></h3>
+<p>
+Returns <tt>true</tt> if all timestamptz values in the period <tt>p1</tt> are greater than all timestamptz values in the period <tt>p2</tt>, <tt>false</tt> otherwise.
+</p>
+
+<h2><tt>PERIOD</tt> Functions</h2>
+
+<h3><tt>period period(timestamptz ts)</tt></h3>
+<p>
+Returns a period consisting of the single timestamptz value <tt>ts</tt>.
+</p>
+
+<h3><tt>period period(timestamptz ts1, timestamptz ts2)</tt></h3>
+<p>
+Returns a period from <tt>ts1</tt> (inclusive) to <tt>ts2</tt> (exclusive).
+</p>
+
+<h3><tt>period empty_period()</tt></h3>
+<p>
+Returns a period containing no timestamptz values.
+</p>
+
+<h3><tt>period period_intersect(period p1, period p2)</tt></h3>
+<p>
+Returns a period consisting of all timestamptz values that are a member of both <tt>p1</tt> and <tt>p2</tt>.
+</p>
+
+<h3><tt>period period_union(period p1, period p2)</tt></h3>
+<p>
+Returns a period consisting of all timestamptz values that are a member of either <tt>p1</tt> or <tt>p2</tt>.
+If <tt>p1</tt> and <tt>p2</tt> do not overlap, and are not adjacent, an exception is raised.
+</p>
+
+<h3><tt>period minus(period p1, period p2)</tt></h3>
+<p>
+Return a period consisting of all timestamptz values that are a member of <tt>p1</tt> but <b>not</b> a member of <tt>p2</tt>.
+If <tt>p2</tt> is contained completely inside <tt>p1</tt> -- that is, <tt>first(p1) &lt; first(p2) AND last(p2) &lt; last(p1)</tt> -- an exception is raised.
+</p>
+
+<h2>Operators</h2>
+
+<h3><tt>period = period </tt><font color="blue">&rarr;</font><tt> equals(period, period)</tt></h3>
+
+<h3><tt>period != period </tt><font color="blue">&rarr;</font><tt> nequals(period, period)</tt></h3>
+
+<h3><tt>period - period </tt><font color="blue">&rarr;</font><tt> minus(period, period)</tt></h3>
+
+<h3><tt>period + period </tt><font color="blue">&rarr;</font><tt> union(period, period)</tt></h3>
+
+<h3><tt>period @&gt; period </tt><font color="blue">&rarr;</font><tt> contains(period, period)</tt></h3>
+
+<h3><tt>period @&gt; timestamptz </tt><font color="blue">&rarr;</font><tt> contains(period, timestamptz)</tt></h3>
+
+<h3><tt>period &lt;@ period </tt><font color="blue">&rarr;</font><tt> contained_by(period, period)</tt></h3>
+
+<h3><tt>timestamptz &lt;@ period </tt><font color="blue">&rarr;</font><tt> contained_by(timestamptz, period)</tt></h3>
+
+<h3><tt>period ~ period </tt><font color="blue">&rarr;</font><tt> contains(period, period)</tt></h3>
+
+<h3><tt>period ~ timestamptz </tt><font color="blue">&rarr;</font><tt> contains(period, timestamptz)</tt></h3>
+
+<h3><tt>timestamptz @ period </tt><font color="blue">&rarr;</font><tt> contained_by(timestamptz, period)</tt></h3>
+
+<h3><tt>period @ period </tt><font color="blue">&rarr;</font><tt> contained_by(period, period)</tt></h3>
+
+<h3><tt>period &amp;&amp; period </tt><font color="blue">&rarr;</font><tt> overlaps(period, period)</tt></h3>
+
+<h3><tt>period &lt;&lt; period </tt><font color="blue">&rarr;</font><tt> before(period, period)</tt></h3>
+
+<h3><tt>period &gt;&gt; period </tt><font color="blue">&rarr;</font><tt> after(period, period)</tt></h3>
+
+<h3><tt>period &amp;&lt; period </tt><font color="blue">&rarr;</font><tt> overleft(period, period)</tt></h3>
+
+<h3><tt>period &amp;&gt; period </tt><font color="blue">&rarr;</font><tt> overright(period, period)</tt></h3>
+
+<h2>GiST Index</h2>
+
+<pre>
+temporal=&gt; CREATE TABLE test(test_period period);
+CREATE TABLE
+temporal=&gt; CREATE INDEX test_period_idx ON test USING GiST (test_period);
+CREATE INDEX
+temporal=&gt; INSERT INTO test (
+temporal(&gt;   SELECT period(
+temporal(&gt;     clock_timestamp() + (generate_series * '1 second'::interval),
+temporal(&gt;     clock_timestamp() + (generate_series * '20 second'::interval)
+temporal(&gt;   )
+temporal(&gt;   FROM generate_series(1,1000001)
+temporal(&gt; );
+INSERT 0 1000001
+temporal=&gt; VACUUM ANALYZE TEST;
+VACUUM
+temporal=&gt; EXPLAIN ANALYZE SELECT count(*) FROM test WHERE test_period @&gt; (now() + (19000000 * '1 second'::interval));
+                                                              QUERY PLAN                                                              
+--------------------------------------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=2585.05..2585.06 rows=1 width=0) (actual time=24.424..24.425 rows=1 loops=1)
+   -&gt;  Bitmap Heap Scan on test  (cost=32.21..2582.55 rows=1000 width=0) (actual time=6.026..15.441 rows=49998 loops=1)
+         Recheck Cond: (test_period @&gt; (now() + '5277:46:40'::interval))
+         -&gt;  Bitmap Index Scan on test_period_idx  (cost=0.00..31.96 rows=1000 width=0) (actual time=5.982..5.982 rows=49998 loops=1)
+               Index Cond: (test_period @&gt; (now() + '5277:46:40'::interval))
+ Total runtime: 24.458 ms
+(6 rows)
+
+</pre>
+
+</body>
+</html>

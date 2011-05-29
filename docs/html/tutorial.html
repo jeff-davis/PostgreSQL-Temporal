@@ -1,0 +1,81 @@
+<html>
+<head>
+<title>Temporal Postgres</title>
+</head>
+<body>
+<h1>Temporal Postgres - Tutorial</h1>
+
+<pre>
+
+--
+-- Simple example
+--
+
+CREATE TABLE meeting
+(
+  name     TEXT PRIMARY KEY,
+  location TEXT,
+  during   PERIOD
+);
+
+-- create a special for fast lookups
+CREATE INDEX meeting_during_idx ON meeting USING gist (during);
+
+INSERT INTO meeting VALUES('Project Planning', 'Room 173',
+  period('2008-01-01 14:00:00', '2008-01-01 16:00:00'));
+INSERT INTO meeting VALUES('Yearly Budget', 'Room 212',
+  period('2008-01-01 10:00:00', '2008-01-01 12:00:00'));
+INSERT INTO meeting VALUES('Code Review', 'Room 212',
+  period('2008-01-01 9:00:00', '2008-01-01 11:00:00'));
+
+-- Find conflicting events
+SELECT m1.name, m2.name FROM meeting m1, meeting m2 WHERE
+  m1.name < m2.name AND
+  overlaps(m1.during, m2.during);
+
+-- Where am I supposed to be right now?
+SELECT location FROM meeting WHERE during @> now();
+
+
+--
+-- More interesting example
+--
+
+CREATE TABLE equipment
+(
+  ename  TEXT,
+  rate   NUMERIC, -- hourly
+  during PERIOD
+);
+
+CREATE TABLE equipment_rental
+(
+  mname  TEXT,
+  ename  TEXT,
+  during PERIOD
+);
+
+-- rate for this summer
+INSERT INTO equipment VALUES ('crane', 1000,
+  period('2008-03-01', '2008-09-01'));
+
+-- rate for next winter
+INSERT INTO equipment VALUES ('crane', 500,
+  period('2008-09-01', '2009-03-01'));
+
+INSERT INTO equipment_rental VALUES('Joe', 'crane',
+  period('2008-08-28', '2008-09-03'));
+
+-- how much do the renters of equipment owe?
+-- this is a "temporal join"
+SELECT
+  mname,
+  sum(date_part('hour', length(period_intersect(r.during, e.during))) * e.rate)
+FROM equipment e, equipment_rental r
+WHERE e.ename = r.ename
+GROUP BY mname;
+
+</pre>
+
+</body>
+</html>

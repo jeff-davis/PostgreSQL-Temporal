@@ -1,0 +1,8 @@
+Temporal Extension for PostgreSQL
+
+This module adds data types, functions, and indexing strategies useful
+for managing time data in PostgreSQL.
+
+The PERIOD data type represents a range of time, e.g. '[2000-01-01,
+2000-03-05)' represents the time from the beginning of January 2000 to
+the 5th of March.
