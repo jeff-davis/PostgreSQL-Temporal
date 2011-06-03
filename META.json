@@ -4,8 +4,14 @@
    "version": "0.7.0",
    "maintainer": "Jeff Davis <pgsql@j-davis.com>",
    "license": "postgresql",
+	 "provides": {
+      "temporal": {
+         "file": "temporal.sql",
+         "version": "0.7.0"
+      }
+   },
    "meta-spec": {
       "version": "1.0.0",
       "url": "http://pgxn.org/meta/spec.txt"
-   },
+   }
 }
