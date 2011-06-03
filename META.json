@@ -1,17 +1,35 @@
 {
    "name": "temporal",
    "abstract": "temporal data type and functions",
-   "version": "0.7.0",
+   "version": "0.7.1",
    "maintainer": "Jeff Davis <pgsql@j-davis.com>",
-   "license": "postgresql",
+   "license": {
+      "PostgreSQL": "http://www.postgresql.org/about/licence"
+   },
 	 "provides": {
       "temporal": {
          "file": "temporal.sql",
-         "version": "0.7.0"
+         "version": "0.7.1"
+      }
+   },
+   "resources": {
+      "homepage": "https://github.com/jeff-davis/PostgreSQL-Temporal",
+      "bugtracker": {
+         "web": "http://github.com/jeff-davis/PostgreSQL-Temporal/issues"
+      },
+      "repository": {
+        "url":  "https://github.com/jeff-davis/PostgreSQL-Temporal.git",
+        "web":  "https://github.com/jeff-davis/PostgreSQL-Temporal",
+        "type": "git"
       }
    },
    "meta-spec": {
       "version": "1.0.0",
       "url": "http://pgxn.org/meta/spec.txt"
-   }
+   },
+   "tags": [
+      "temporal",
+      "period",
+      "time"
+   ]
 }

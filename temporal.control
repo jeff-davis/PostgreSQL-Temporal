@@ -1,5 +1,5 @@
 # temporal extension
 comment = 'temporal data type and functions'
-default_version = '0.7.0'
+default_version = '0.7.1'
 module_pathname = '$libdir/temporal'
 relocatable = true

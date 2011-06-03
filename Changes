@@ -1,2 +1,7 @@
-0.7.0 2011-05-31
+0.7.1 2011-06-02
+  - Improve META.json metadata
+
+0.7.0 2011-06-02
 	- Import from CVS
+  - Make it work as an EXTENSION or not
+  - Add a stub test
