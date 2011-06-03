@@ -1,0 +1,10 @@
+\set ECHO 0
+psql:temporal.sql:14: NOTICE:  return type period is only a shell
+psql:temporal.sql:17: NOTICE:  argument type period is only a shell
+select '[2009-01-01, 2009-03-01)'::period @> '[2009-02-03, 2009-02-07)'::period;
+ ?column? 
+----------
+ t
+(1 row)
+
+ROLLBACK;
