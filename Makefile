@@ -3,7 +3,7 @@ EXTVERSION   = $(shell grep default_version $(EXTENSION).control | sed -e "s/def
 
 DATA         = $(filter-out $(wildcard sql/*--*.sql),$(wildcard sql/*.sql))
 DATA_built   = $(patsubst %.sql.in,%.sql,$(wildcard *.sql.in))
-#DOCS         = $(wildcard doc/*.txt)
+DOCS         = $(wildcard doc/html/*.html)
 TESTS        = $(wildcard test/sql/*.sql)
 REGRESS      = $(patsubst test/sql/%.sql,%,$(TESTS))
 REGRESS_OPTS = --inputdir=test --load-language=plpgsql
