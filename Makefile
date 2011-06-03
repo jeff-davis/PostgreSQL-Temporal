@@ -2,6 +2,7 @@ EXTENSION    = temporal
 EXTVERSION   = $(shell grep default_version $(EXTENSION).control | sed -e "s/default_version[[:space:]]*=[[:space:]]*'\([^']*\)'/\1/")
 
 DATA         = $(filter-out $(wildcard sql/*--*.sql),$(wildcard sql/*.sql))
+DATA_built   = $(patsubst %.sql.in,%.sql,$(wildcard *.sql.in))
 #DOCS         = $(wildcard doc/*.txt)
 TESTS        = $(wildcard test/sql/*.sql)
 REGRESS      = $(patsubst test/sql/%.sql,%,$(TESTS))
@@ -13,7 +14,7 @@ PG91         = $(shell $(PG_CONFIG) --version | grep -qE " 8\.| 9\.0" && echo no
 ifeq ($(PG91),yes)
 all: sql/$(EXTENSION)--$(EXTVERSION).sql
 
-sql/$(EXTENSION)--$(EXTVERSION).sql: sql/$(EXTENSION).sql
+sql/$(EXTENSION)--$(EXTVERSION).sql: $(EXTENSION).sql.in
 	cp $< $@
 
 DATA = $(wildcard sql/*--*.sql) sql/$(EXTENSION)--$(EXTVERSION).sql
