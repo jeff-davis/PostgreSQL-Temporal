@@ -6,7 +6,7 @@
    "license": {
       "PostgreSQL": "http://www.postgresql.org/about/licence"
    },
-	 "provides": {
+   "provides": {
       "temporal": {
          "file": "temporal.sql",
          "version": "0.7.1"
