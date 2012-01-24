@@ -13,8 +13,8 @@ the 5th of March.
 To build it, just do this:
 
     make
-    make installcheck
     make install
+    make installcheck
 
 If you encounter an error such as:
 
