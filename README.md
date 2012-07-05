@@ -54,6 +54,11 @@ You need to run the test suite using a super user, such as the default
 
     make installcheck PGUSER=postgres
 
+If you are having issues with Postgres on Mac osX and you installed Postgres
+using the EnterpriseDB install you may want to try using homebrew to install 
+your Postgres Database. The EnterpriseDB install sets up a pg_config that will
+not work with osX Lion. 
+
 Once temporal is installed, you can add it to a database. If you're running
 PostgreSQL 9.1.0 or greater, it's a simple as connecting to a database as a
 super user and running:
